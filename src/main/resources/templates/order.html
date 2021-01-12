@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Order</title>
+    <link rel="stylesheet" th:href="@{/css/body.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/order.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header(${auth_user})"></div>
+
+<div class="body">
+    <h3 th:utext="'Order #'+${#numbers.formatDecimal(order.getId(),8,0)}"></h3>
+    <!--th:if="${@userService.getAuthUser(principal) != order.getUser()}"-->
+    <div th:utext="'<b>User:</b> '+${order.getUser() == null?'<b>Guest</b>': order.getUser().getName()}"></div>
+    <div th:utext="'<b>Order date:</b> '+${#dates.format(order.getOrder_date(),'dd MMMM yyyy HH:mm')}"></div>
+    <h3>Element's:</h3>
+    <div th:each="el:${order.getOrderProducts()}">
+        <div th:text="${el.getProduct().getName()+' : '+el.getCount()+' шт.'}"></div>
+    </div>
+    <div th:utext="'<b>Comments:</b> '+${order.getComment()}"></div>
+    <br>
+    <form th:if="${auth_user != null}">
+        <h3>Close order?</h3>
+        <div>
+            <input name="complite" type="radio" value="true">True
+            <input name="complite" type="radio" value="false" checked>False
+        </div>
+        <input class="button" type="submit" value="Submit">
+    </form>
+    <br>
+    <div>
+        <button onclick="window.location.href='/order/all'">Back</button>
+    </div>
+    <div>
+        <button onclick="window.location.href='/homepage'">To homepage</button>
+    </div>
+
+</div>
+<div th:replace="fragments/footer:: footer"></div>
+<script th:src="@{/js/header.js}"></script>
+
+</body>
+
+</html>

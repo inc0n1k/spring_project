@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Profile</title>
+    <link rel="stylesheet" th:href="@{/css/body.css}">
+    <link rel="stylesheet" th:href="@{/css/body.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header(${auth_user})"></div>
+
+<div class="body">
+    <div th:utext="${'<b>User name:</b> '+user.getName()}"></div>
+    <div th:utext="${'<b>User login:</b> '+user.getLogin()}"></div>
+    <div th:utext="${'<b>User password:</b> '+user.getPassword()}+'(encode by bcrypt)'"></div>
+    <div th:utext="${'<b>User role:</b> '+user.getRole().getDisplayName()}"></div>
+<!--    <button class="button" onclick="window.location.href = '/homepage'">To Home page</button>-->
+    <div th:if="${back != null}">
+        <input id="data_back" type="hidden" th:value="${back}">
+        <button>Back</button>
+    </div>
+    <div th:if="${back == null}">
+        <button onclick="window.location.href='/homepage'">Back</button>
+    </div>
+</div>
+
+<div th:replace="fragments/footer:: footer"></div>
+
+<script th:src="@{/js/header.js}"></script>
+
+</body>
+<script>
+    let back_data = document.getElementById('data_back');
+    if (back_data !== null) {
+        back_data.nextElementSibling.onclick = () => {
+            document.location.href = back_data.value;
+        }
+        back_data.remove();
+    }
+</script>
+</html>

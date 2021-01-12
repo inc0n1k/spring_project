@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title th:if="${act.equals('buy')}">Buy products</title>
+    <title th:if="${act.equals('edit')}">Edit product</title>
+    <title th:if="${act.equals('addp')}">Add product</title>
+    <title th:if="${act.equals('addo')}">Add option</title>
+    <link rel="stylesheet" th:href="@{/css/body.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/select.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header(${auth_user})"></div>
+
+<div class="body">
+    <div class="box">
+        <select class="select_cat" id="1" onchange="onCh(this)">
+            <option selected disabled>Select category</option>
+            <option th:each="el:${categories}" th:value="${el.getId()}" th:text="${el.getCategory()}"></option>
+        </select>
+        <form method="post" action="processing" autocomplete="off">
+            <input name="select_category" type="hidden">
+            <input name="act" type="hidden" th:value="${act}">
+            <button class="select_cat" disabled type="submit">Next</button>
+        </form>
+        <button class="select_cat" onclick="window.location.href='homepage'">To home page</button>
+    </div>
+</div>
+
+<div th:replace="fragments/footer:: footer"></div>
+
+<script th:src="@{/js/header.js}"></script>
+<script th:src="@{/js/select.js}"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Buy products</title>
+    <link rel="stylesheet" th:href="@{/css/body.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/buy.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header(${auth_user})"></div>
+
+<div class="body">
+    <div class="product_div" th:each="el:${products}">
+        <div class="product_info_div">
+            <div th:text="'Category: ' + ${el.getCategory().getCategory()}"></div>
+            <div th:text="'Name: ' + ${el.getName()}"></div>
+            <div th:text="'Price: ' + ${el.getPrice()}"></div>
+            <div th:each="val:${el.getValues()}">
+                <div th:text="${val.getOption().getName()}+' : '+ ${val.getValue()}"></div>
+            </div>
+        </div>
+        <div class="buy_button_box">
+            <button class="buy_button" th:value="${el.getId()}" onclick="addProductToCart(this)">Add to cart
+            </button>
+        </div>
+    </div>
+    <div>
+        <button onclick="window.location.href='/select?act=buy'">Back</button>
+    </div>
+</div>
+
+<div th:replace="fragments/footer:: footer"></div>
+<script th:src="@{/js/header.js}"></script>
+<script th:src="@{/js/buy.js}"></script>
+
+</body>
+</html>

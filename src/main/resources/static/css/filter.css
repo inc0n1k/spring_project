@@ -1,0 +1,35 @@
+.filter_form{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.filter_fileds{
+    display: flex;
+}
+
+button {
+    width: 200px;
+    height: 20px;
+    margin: 3px;
+    border: black 2px outset;
+    border-radius: 5px;
+}
+
+input {
+    margin: 1px;
+    height: 20px;
+    border: black 2px outset;
+    border-radius: 5px;
+    padding-left: 2px;
+}
+
+select {
+    margin: 1px;
+    height: 25px;
+    border: black 2px outset;
+    border-radius: 5px;
+}
+.but{
+    display: flex;
+    justify-content: space-around;
+}

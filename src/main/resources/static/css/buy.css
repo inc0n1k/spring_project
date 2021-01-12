@@ -1,0 +1,26 @@
+.product_div{
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    height: auto;
+    border: 3px black double;
+    border-radius: 5px;
+    padding: 7px;
+    margin: 3px 0;
+}
+.product_info_div{
+    display: flex;
+    flex-direction: column;
+    width: auto;
+}
+.buy_button_box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.buy_button{
+    width: 100px;
+    height: 25px;
+}

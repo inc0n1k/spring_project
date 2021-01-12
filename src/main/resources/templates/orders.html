@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Orders</title>
+    <link rel="stylesheet" th:href="@{/css/body.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header(${auth_user})"></div>
+
+<div class="body">
+    <p th:each="el:${orders}">
+        <a th:href="${el.getId()}" th:text="'Order #'+${#numbers.formatDecimal(el.getId(),8,0)}"> </a>
+    </p>
+    <br>
+    <div>
+        <button onclick="window.location.href='/homepage'">To homepage</button>
+    </div>
+</div>
+
+<div th:replace="fragments/footer:: footer"></div>
+<script th:src="@{/js/header.js}"></script>
+
+</body>
+</html>

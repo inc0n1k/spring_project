@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Cart</title>
+    <link rel="stylesheet" th:href="@{/css/body.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header(${auth_user})"></div>
+
+<div class="body">
+    <!--    *************************************************************************************-->
+    <table width="1000" id="ttt" border="2">
+        <tr>
+            <th colspan="2">Name</th>
+            <th>Category</th>
+            <th>Options</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Sum</th>
+        </tr>
+        <tr th:each="el:${products}">
+            <td align="center">
+                <input type="hidden" th:value="${el.getId()}">
+                <button onclick="buttonDel(this)">Del</button>
+            </td>
+            <td th:text="${el.getName()}">
+            </td>
+            <td th:text="${el.getCategory().getCategory()}">
+            </td>
+            <td>
+                <p th:each="opt:${el.getValues()}" th:text="${opt.getOption().getName()}+' : '+${opt.getValue()}"></p>
+            </td>
+            <td class="price" th:text="${el.getPrice()}">
+            </td>
+            <td align="center">
+                <input type="hidden" th:value="${el.getId()}">
+                <input class="count" required type="number" min="1" onchange="recalculate(this)">
+            </td>
+            <td class="sum">
+            </td>
+        </tr>
+        <tr>
+            <th align="left" colspan="6">Total</th>
+            <th class="totalSum"></th>
+        </tr>
+    </table>
+
+    <form method="post" action="createorder" autocomplete="off">
+        <textarea name="comment" placeholder="Input comment about oreder..."></textarea><br>
+        <button type="submit">Create order</button>
+    </form>
+
+    <div>
+        <button class="button" onclick="window.location.href = 'homepage'">To homepage</button>
+    </div>
+
+    <!--    *************************************************************************************-->
+</div>
+
+<div th:replace="fragments/footer:: footer"></div>
+<script th:src="@{/js/header.js}"></script>
+<script th:src="@{/js/cart.js}"></script>
+
+</body>
+</html>

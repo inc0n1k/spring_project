@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Add options</title>
+    <link rel="stylesheet" th:href="@{/css/body.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/addoptions.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header(${auth_user})"></div>
+
+<div class="body">
+    <h3>Существующие опции:</h3>
+    <h3 th:text="${category.getCategory()}"></h3>
+    <div class="exists">
+        <div class="opt" th:each="el:${category.getOptions()}" th:text="${el.getName()}"></div>
+    </div>
+    <form action="" method="post" autocomplete="off">
+        <h3 class="opt">Новые опции:</h3>
+        <input type="hidden" name="category" th:value="${category.getId()}">
+        <input required type="text" name="options" placeholder="Input new option name...">
+        <button id="add_opt">Add new option</button>
+        <button type="submit">Save</button>
+    </form>
+    <div class="exists">
+        <button class="button" onclick="window.location.href = 'select?act=addo'">Back</button>
+        <button class="button" onclick="window.location.href = 'homepage'">To homepage</button>
+    </div>
+</div>
+
+<div th:replace="fragments/footer:: footer"></div>
+<script th:src="@{/js/header.js}"></script>
+<script th:src="@{/js/addoptions.js}"></script>
+</body>
+</html>

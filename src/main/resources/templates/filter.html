@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Filter products</title>
+    <link rel="stylesheet" th:href="@{/css/body.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/filter.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header(${auth_user})"></div>
+
+<div class="body">
+    <form>
+        <div class="filter_form" id="form but">
+            <select class="filter_fileds" id="category" name="category" onchange="getValues(this)">
+                <option value="">All category...</option>
+                <option th:each="el:${categories}" th:value="${el.getId()}" th:text="${el.getCategory()}"></option>
+            </select>
+            <input class="filter_fileds" id="name" name="name" type="text" placeholder="Input name filter...">
+            <input class="filter_fileds" id="minp" name="minp" type="number" min="1" placeholder="Input min price...">
+            <input class="filter_fileds" id="maxp" name="maxp" type="number" min="1" placeholder="Input max price...">
+        </div>
+        <div id='values'>
+            <!--список со значениями-->
+        </div>
+        <div class="but">
+            <button id="submit" type="submit">>>>Find<<<</button>
+            <button id="reset">Reset</button>
+        </div>
+    </form>
+    <br>
+    <div id="products">
+        <!--тут форируется список найденых товаров-->
+    </div>
+</div>
+
+<div th:replace="fragments/footer:: footer"></div>
+<script th:src="@{/js/header.js}"></script>
+<script th:src="@{/js/filter.js}"></script>
+
+</body>
+</html>

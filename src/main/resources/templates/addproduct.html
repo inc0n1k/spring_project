@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Add products</title>
+    <link rel="stylesheet" th:href="@{/css/body.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/addproduct.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header(${auth_user})"></div>
+
+<div class="body">
+    <form class="add_form" method="post" autocomplete="off">
+        <input type="hidden" name="id" th:value="${category.getId()}">
+        <div class="item">
+            <div class="div_name">Name:</div>
+            <input required class="input" name="name" type="text" placeholder="Input name..." oninput ="onEdit()">
+        </div>
+        <div class="item">
+            <div class="div_name">Price:</div>
+            <input required class="input" name="price" min="1" type="number" placeholder="Input price..." oninput="onEdit()">
+        </div>
+        <div class="item" th:each="el:${category.getOptions()}">
+            <div class="div_name" th:text="${el.getName()}"></div>
+            <input required class="input" th:name="${el.getId()}+'_opt'" type="text"
+                   th:placeholder="'Input &#34;'+${el.getName().toLowerCase()}+'&#34...'" oninput="onEdit()">
+        </div>
+        <div class="item">
+            <button class="button" id="submit" type="submit" disabled>Save</button>
+            <input class="button" id="cancel" type="button" value="Cancel">
+        </div>
+    </form>
+</div>
+
+<div th:replace="fragments/footer:: footer"></div>
+<script th:src="@{/js/header.js}"></script>
+<script>
+    let button_c = document.getElementById('cancel');
+    button_c.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        window.location.href = 'select?act=addp';
+    }
+
+    function onEdit() {
+        let button_s = document.getElementById('submit');
+        let inputs = document.querySelectorAll('input');
+        button_s.removeAttribute('disabled');
+        for (let el of inputs) {
+            if (el.value.trim() === '') {
+                button_s.disabled = true;
+                break;
+            }
+        }
+    }
+
+</script>
+
+</body>
+</html>

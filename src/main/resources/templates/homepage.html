@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Home Page</title>
+    <link rel="stylesheet" th:href="@{/css/body.css}">
+    <link rel="stylesheet" th:href="@{/css/homepage.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+</head>
+<body>
+<div th:replace="fragments/header :: header(${auth_user})"></div>
+
+<div class="body">
+    <div class="general">
+        <div th:class="${auth_user != null && !auth_user.getRole().getName().equals('user')}?'top_item':'item'">
+            <a href="select?act=buy">Buy products</a>
+        </div>
+        <div class="bottom_box" th:if="${auth_user != null && !auth_user.getRole().getName().equals('user')}">
+            <div class="item">
+                <a href="/user/orders">User orders</a>
+            </div>
+            <div class="item">
+                <a href="select?act=edit">Edit products</a>
+            </div>
+            <div class="item">
+                <a href="select?act=addp">Add Product</a>
+            </div>
+            <div class="item">
+                <a href="select?act=addo">Add option</a>
+            </div>
+            <div class="item">
+                <a href="/order/all">All orders</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer:: footer"></div>
+<script th:src="@{/js/header.js}"></script>
+
+</body>
+</html>

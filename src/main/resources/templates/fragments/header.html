@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>header</title>
+</head>
+<body>
+<!--************************************-->
+<div class="header" th:fragment="header(user)">
+    <div class="logo">
+        <img th:src="@{/images/1q2w3e.png}">
+    </div>
+    <div class="right_head">
+        <a href="/cart">
+            <img class="basket" th:src="@{/images/4r5t6y.png}">
+        </a>
+        <a href="/cart">
+            <div class="calc_prod_in_basket">
+                <div id="calc" class="calc">
+                </div>
+            </div>
+        </a>
+
+        <div th:if="${user == null}" id="login_info" class="login_info">
+            Вы вошли как: Guest
+            <a href="/">Login</a>
+        </div>
+
+        <div th:if="${user != null}" id="login_info" class="login_info">
+            Вы вошли как:
+            <a href="/user" th:text="${user.getName}+'('+${user.getLogin}+')'"></a>
+            <a href="/exit">Exit</a>
+        </div>
+
+    </div>
+    <!--<script>
+
+        // ****************
+
+        function getCookie(name) {
+            let matches = document.cookie.match(new RegExp(
+                "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+            ));
+            return matches ? decodeURIComponent(matches[1]) : undefined;
+        }
+
+        function calcCart() {
+            calc.innerText = getCookie("count") === undefined ? 0 : getCookie("count");
+        }
+
+        calcCart();
+
+        // ****************
+
+        // function authUser() {
+        //     let xhr = new XMLHttpRequest();
+        //     xhr.open('POST', 'getauthuser');
+        //     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
+        //     xhr.send();
+        //     xhr.onload = () => {
+        //         if (xhr.response !== "null") {
+        //             let user = JSON.parse(xhr.response);
+        //             let a = document.createElement('a');
+        //             a.href = 'userprofile';
+        //             a.innerText = user.name + '(' + user.login + ')';
+        //             login_info.append(a);
+        //             let a2 = document.createElement('a');
+        //             a2.href = 'exit';
+        //             a2.innerText = 'Exit';
+        //             a.after(a2);
+        //         } else {
+        //             let a = document.createElement('a');
+        //             a.href = 'login';
+        //             a.innerText = 'Log in';
+        //             login_info.append("Guest");
+        //             login_info.append(a);
+        //         }
+        //     }
+        // }
+        //
+        // authUser();
+
+        // ****************
+
+    </script>-->
+</div>
+<!--************************************-->
+</body>
+</html>

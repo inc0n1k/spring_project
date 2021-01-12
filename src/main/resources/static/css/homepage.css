@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+}
+
+.general {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    height: auto;
+    border: 3px black double;
+    border-radius: 5px;
+}
+
+.item {
+    margin: 7px auto;
+}
+
+.top_item {
+    margin: 7px auto 0 auto;
+}
+
+.bottom_box {
+    margin: 0 auto 0 auto;
+}

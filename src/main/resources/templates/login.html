@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <title>Login</title>
+</head>
+
+<body>
+
+<div class="content_box">
+    <form class="login_form" th:action="@{/login}" method="post">
+        <p class="error" th:if="${#request.getParameter('error') != null}">
+            Неверный логин или пароль
+        </p>
+        <input aria-label="Логин" class="input" required placeholder="Input login..." type="text" name="username"
+               autofocus>
+        <input aria-label="Пароль" class="input" required placeholder="Input password..." type="password"
+               name="password">
+        <div class="button_form">
+            <div>
+                <input class="button" type="submit" value="Login">
+            </div>
+            <div>
+                <button id="gohome" class="button"> Login as guest
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div th:replace="fragments/footer::footer"></div>
+
+</body>
+<script>
+    let button_h = document.getElementById("gohome");
+    button_h.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        window.location.href = 'homepage';
+    }
+</script>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Edit products</title>
+    <link rel="stylesheet" th:href="@{/css/body.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/edit.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header(${auth_user})"></div>
+
+<div class="body">
+    <div class="product_div" th:each="el:${products}" th:id="${el.getId()}+'_div'">
+        <div class="product_info_div">
+            <div th:text="'Category: ' + ${el.getCategory().getCategory()}"></div>
+            <div th:text="'Name: ' + ${el.getName()}"></div>
+            <div th:text="'Price: ' + ${el.getPrice()}"></div>
+            <div th:each="val:${el.getValues()}">
+                <div th:text="${val.getOption().getName()}+' : '+ ${val.getValue()}"></div>
+            </div>
+        </div>
+        <div class="edit_button_div">
+            <button class="edit_button" th:id="${el.getId()}+'_button'" th:value="${el.getId()}" onclick="showEditForm(this)">Edit product
+            </button>
+        </div>
+    </div>
+    <button class="edit_button" onclick="window.location.href='select?act=edit'">Back</button><br>
+    <button class="edit_button" onclick="window.location.href='homepage'">To homepage</button>
+</div>
+
+<div th:replace="fragments/footer:: footer"></div>
+<script th:src="@{/js/header.js}"></script>
+<script th:src="@{/js/edit.js}"></script>
+
+</body>
+</html>
