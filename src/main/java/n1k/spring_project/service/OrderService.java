@@ -8,6 +8,7 @@ import n1k.spring_project.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -60,6 +61,17 @@ public class OrderService {
 			orderProductService.saveOrderProductNow(orderProduct);
 		}
 	}
+
+	public void closeOrder(long id, boolean complite, String comment) {
+		Order order = getOrderById(id);
+		order.setComplited(complite);
+		order.setDate_complit(new Date());
+		if (comment != null) {
+			order.setComment(order.getComment() + " (Don't complited because: " + comment+")");
+		}
+		order.setActive(false);
+		saveOrderNow(order);
+	}//close closeOrder
 
 	public void saveOrder(Order order) {
 		orderRepository.save(order);

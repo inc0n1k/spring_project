@@ -6,7 +6,7 @@ target/
 
 ### TEST ###
 /src/test/
-.ssh
+/ignoreGit/
 
 ### STS ###
 .apt_generated

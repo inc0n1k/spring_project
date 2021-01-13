@@ -14,7 +14,6 @@
 
 <div class="body">
     <h3 th:utext="'Order #'+${#numbers.formatDecimal(order.getId(),8,0)}"></h3>
-    <!--th:if="${@userService.getAuthUser(principal) != order.getUser()}"-->
     <div th:utext="'<b>User:</b> '+${order.getUser() == null?'<b>Guest</b>': order.getUser().getName()}"></div>
     <div th:utext="'<b>Order date:</b> '+${#dates.format(order.getOrder_date(),'dd MMMM yyyy HH:mm')}"></div>
     <h3>Element's:</h3>
@@ -22,26 +21,24 @@
         <div th:text="${el.getProduct().getName()+' : '+el.getCount()+' шт.'}"></div>
     </div>
     <div th:utext="'<b>Comments:</b> '+${order.getComment()}"></div>
-    <br>
-    <form th:if="${auth_user != null}">
-        <h3>Close order?</h3>
+
+    <form method="post" action="closeorder" autocomplete="off" th:if="${auth_user != null}">
+        <input type="hidden" name="order" th:value="${order.getId()}">
         <div>
-            <input name="complite" type="radio" value="true">True
-            <input name="complite" type="radio" value="false" checked>False
+            <input id="active" type="checkbox" onchange="orderClose(this)"> Close order
         </div>
-        <input class="button" type="submit" value="Submit">
     </form>
-    <br>
+
     <div>
         <button onclick="window.location.href='/order/all'">Back</button>
     </div>
     <div>
         <button onclick="window.location.href='/homepage'">To homepage</button>
     </div>
-
 </div>
 <div th:replace="fragments/footer:: footer"></div>
 <script th:src="@{/js/header.js}"></script>
+<script th:src="@{/js/order.js}"></script>
 
 </body>
 

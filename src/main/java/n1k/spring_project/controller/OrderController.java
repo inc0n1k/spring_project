@@ -5,9 +5,7 @@ import n1k.spring_project.service.OrderService;
 import n1k.spring_project.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -55,5 +53,16 @@ public class OrderController {
 			return "order";
 		}
 		return "redirect:/homepage";
-	}
-}
+	}//close getOrder
+
+	@PostMapping(path = "closeorder")
+	public String closeOrder(
+			@RequestParam Long order,
+			@RequestParam Boolean complite,
+			@RequestParam(required = false) String comment
+	) {
+		orderService.closeOrder(order, complite, comment);
+		return "redirect:homepage";
+	}//close closeOrder
+
+}//close OrderController
