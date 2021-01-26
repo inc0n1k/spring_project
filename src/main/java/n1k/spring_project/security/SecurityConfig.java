@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						"/",
 						"/favicon.ico",
 						"/homepage",
+						"/registration",
 						"/buy",
 						"/select",
 						"/processing",

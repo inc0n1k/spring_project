@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Registration</title>
+    <style>
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 400px;
+        }
+
+        label, input, button {
+            width: 170px;
+            margin: 2px;
+            height: 20px;
+        }
+
+        input, button {
+            border: 1px black dotted;
+            border-radius: 5px;
+            padding: 0 5px;
+        }
+
+        img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: row;
+            width: 400px;
+        }
+
+        .but_div {
+            justify-content: space-between;
+        }
+
+        .err {
+            font-family: "Comic Sans MS", sans-serif;
+            color: red;
+            align-self: center;
+        }
+
+    </style>
+</head>
+
+<body>
+<label>All inputs don't contains spaces. Password is at least 8 characters</label>
+<form method="post" action="registration" autocomplete="on">
+    <div class="field">
+        <label>Name:</label>
+        <input autofocus required type="text" name="name" placeholder="Input name...">
+    </div>
+    <div class="field">
+        <label>Surname:</label>
+        <input required type="text" name="surname" placeholder="Input surname...">
+    </div>
+    <div class="field">
+        <label>Login:</label>
+        <input required type="text" name="login" placeholder="Input login...">
+    </div>
+    <div class="err" th:if="${#request.getAttribute('errlog') != null}" th:text="${#request.getAttribute('errlog')}">
+    </div>
+    <div class="field">
+        <label>Password:</label>
+        <input required type="password" name="password" placeholder="Input password..." class="pass">
+        <img src="/images/not_match.png" alt="match">
+    </div>
+    <div class="field">
+        <label>Confirm password:</label>
+        <input required type="password" name="password_confirm" placeholder="Confirm password..." class="pass_conf">
+        <img src="/images/not_match.png" alt="match">
+    </div>
+    <div class="field but_div">
+        <button type="submit" disabled>Registration</button>
+        <button onclick="window.location.href='/'">Back</button>
+    </div>
+</form>
+
+<div th:replace="fragments/footer::footer"></div>
+
+</body>
+<script>
+
+    const inputs = document.querySelectorAll('form div input');
+    const but = document.querySelector('button[type=submit]');
+    const pass = document.querySelector(".pass");
+    const pass_conf = document.querySelector('.pass_conf');
+    const login = document.querySelector("input[name=login]");
+
+
+    inputs.forEach(el => el.addEventListener('change', checkAll));
+    inputs.forEach(el => el.addEventListener('keyup', checkAll));
+
+    function checkAll() {
+        let logCh = checkLogin();
+        let inputCh = inputsCheck();
+        let passwordCh = passwordCheck();
+        but.disabled = !(inputCh && passwordCh && logCh);
+    }
+
+    function checkLogin() {
+        if (login.value !== undefined && login.value !== '') {
+            return login.value.match(/^([^\d\W])([\d\w]{7,})$/gi) !== null;
+        } else {
+            return false;
+        }
+    }
+
+    function passwordCheck() {
+        if (pass.value.length >= 8 && !pass.value.includes(' ')) {
+            pass.nextElementSibling.src = "/images/match.png";
+            if (pass_conf.value === pass.value) {
+                pass_conf.nextElementSibling.src = "/images/match.png";
+                return true;
+            } else {
+                pass_conf.nextElementSibling.src = "/images/not_match.png";
+                return false;
+            }
+        } else {
+            pass_conf.nextElementSibling.src = "/images/not_match.png";
+            pass.nextElementSibling.src = "/images/not_match.png";
+            return false;
+        }
+    }
+
+    function inputsCheck() {
+        for (let el of inputs) {
+            if (el.value.replaceAll(' ', '') === '' || el.value.includes(' ')) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+</script>
+</html>

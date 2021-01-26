@@ -1,34 +1,76 @@
 package n1k.spring_project.controller;
 
+import n1k.spring_project.model.User;
 import n1k.spring_project.service.OrderService;
+import n1k.spring_project.service.UserService;
+import n1k.spring_project.sup.UserSaveMethod;
+import n1k.spring_project.validator.UserValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import n1k.spring_project.service.UserService;
+import org.springframework.validation.DataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.Map;
 
 @Controller
-@RequestMapping(path = "/user")
+@RequestMapping(path = "")
 public class UserController {
 
 	//***Constructor********************************
 
 	private final UserService userService;
 	private final OrderService orderService;
+	private final UserValidator userValidator;
 
-	public UserController(UserService userService, OrderService orderService) {
+	public UserController(
+			UserService userService,
+			OrderService orderService,
+			UserValidator userValidator
+	) {
 		this.userService = userService;
 		this.orderService = orderService;
+		this.userValidator = userValidator;
 	}
 
 	//***Get & Post**********************************
 
+	@GetMapping(path = "/registration")
+	public String getRegistrationPage(
+			Principal principal
+	) {
+		if (principal != null) {
+			return "redirect:/homepage";
+		}
+		return "registration";
+	}//close getRegistrationPage
+
+	@PostMapping(path = "registration")
+	public String registration(
+			@RequestParam Map<String, String> map,
+			HttpServletRequest httpServletRequest
+	) {
+		if (userService.getUser(map.get("login")) != null) {
+			httpServletRequest.setAttribute("errlog", "Login exist...");
+		} else {
+			if (map.get("password").equals(map.get("password_confirm"))) {
+				map.remove("password_confirm");
+				User user = userService.createUserFromMap(map);
+				DataBinder dataBinder = new DataBinder(user);
+				dataBinder.addValidators(userValidator);
+				dataBinder.validate(user);
+				if (dataBinder.getBindingResult().getFieldErrorCount() == 0) {
+					userService.saveUserNow(user, UserSaveMethod.NEW);
+					return "redirect:login";
+				}
+			}
+		}
+		return "registration";
+	}//close registration
+
 	//work
-	@GetMapping(path = "")
+	@GetMapping(path = "/user")
 	public String authUserProfile(
 			Model model,
 			Principal principal,
@@ -45,7 +87,7 @@ public class UserController {
 	}//close authUserProfile
 
 	//work
-	@GetMapping(path = "/{id}")
+	@GetMapping(path = "/user/{id}")
 	public String userProfile(
 			Model model,
 			Principal principal,
@@ -69,7 +111,7 @@ public class UserController {
 		}
 	}//close userProfile
 
-	@GetMapping(path = "/orders")
+	@GetMapping(path = "/user/orders")
 	public String getAuthUserOrders(
 			Model model,
 			Principal principal
